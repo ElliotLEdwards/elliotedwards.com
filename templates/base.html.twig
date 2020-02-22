@@ -6,7 +6,13 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+            <h1>{{myVariable}}</h1>
+
+        {% endblock %}
         {% block javascripts %}{% endblock %}
+        <script>
+            console.log('hello from the console !')
+        </script>
     </body>
 </html>
