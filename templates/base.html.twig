@@ -7,11 +7,12 @@
     </head>
     <body>
         {% block body %}
-            <h1>{{myVariable}}</h1>
+            <h1>Access token :</h1><b>{{accessToken}}</b>
+            <h1>Refresh token :</h1><b>{{refreshToken}}</b>
             <div className='App'>
-            <a href='http://localhost:8888'>
+            {# <a href='http://localhost:8888'>
                 <button type="button" class="btn btn-success">Login to Spotify</button>
-            </a>
+            </a> #}
             </div>
 
         {% endblock %}

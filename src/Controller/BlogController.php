@@ -3,21 +3,26 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
     /**
-     * @Route("/blog", name="blog_list")
+     * @Route("/blog/", name="blog_list")
      */
     public function list(Request $request)
     {
-        $title = $request->attributes->get('access_token');
-        $title = $request->attributes->get('refresh_token');
-        $var = "elliotedwards.com first commit !";
+        $access_token = $request->query->get('access_token');
+        $refresh_token = $request->query->get('refresh_token');
+        
+        
+        $var = $access_token . $refresh_token;
+        // $var = $access_token + $refresh_token;
+        
         return $this->render('base.html.twig', [
-            "myVariable" => $var,
+            "accessToken" => $access_token,
+            "refreshToken" => $refresh_token
          ]);
     }
 }

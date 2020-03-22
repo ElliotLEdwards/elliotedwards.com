@@ -68,7 +68,7 @@ Encore
 
     // uncomment if you use API Platform Admin (composer req api-admin)
     .enableReactPreset()
-    //.addEntry('admin', './assets/js/admin.js')
+    .addEntry('spotify', './assets/js/spotify.jsx')
 ;
 
 module.exports = Encore.getWebpackConfig();
