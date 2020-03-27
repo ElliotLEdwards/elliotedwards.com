@@ -9,16 +9,22 @@
         {% block body %}
             <h1>Access token :</h1><b>{{accessToken}}</b>
             <h1>Refresh token :</h1><b>{{refreshToken}}</b>
-            <div className='App'>
+            <div class='spotify-controls'
+                    data-spotify-test="toto"
+                    data-spotify-access-token{{accessToken}}
+                    data-spotify-refresh-token{{refreshToken}}
+            ></div>
             {# <a href='http://localhost:8888'>
                 <button type="button" class="btn btn-success">Login to Spotify</button>
             </a> #}
+            
             </div>
 
         {% endblock %}
-        {% block javascripts %}{% endblock %}
-        <script>
-            console.log('hello from the console !')
-        </script>
+        
+        
     </body>
 </html>
+{% block javascripts %}
+    {{ encore_entry_script_tags('spotify') }}
+{% endblock %}

@@ -1,28 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { App } from './spotify-controls';
 
-
-class App extends Component {
-    constructor(){
-        super();
-
-        const params = this.getHashParams();
-        this.state = {
-            loggedIn: params.access_token,
-            nowPlaying: {
-                name: 'Not Checked',
-                image: ''
-            }
-        }
-    }
-
-
-    getHashParams() {
-        var hashParams = {};
-        var e, r = /([^&;=]+)=?([^&;]*)/g,
-            q = window.location.hash.substring(1);
-        while ( e = r.exec(q)) {
-           hashParams[e[1]] = decodeURIComponent(e[2]);
-        }
-        return hashParams;
-      }
-}
+$(function ()
+{
+    const $spotifyControls = $('.spotify-controls');
+    
+    $spotifyControls.each((k, e) =>
+    {
+        ReactDOM.render((
+            <React.StrictMode>≈
+                <App
+                    test={$(e).data('spotify-test')}
+                    accessToken={$(e).data('spotify-access-token')}
+                    refreshToken={$(e).data('spotify-refresh-test')}
+                />
+            </React.StrictMode>
+        ),
+            e
+        );
+    });
+});
