@@ -4,8 +4,6 @@ import React, { Component } from 'react';
 export class App extends Component {
     constructor(){
         super();
-        console.log(this.props.accessToken)
-        console.log(this.props.refreshToken)
         const params = this.getHashParams();
         this.state = {
             loggedIn: params.access_token,
