@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { App } from './spotify-controls';
-import $ from "jquery";
+import $ from 'jquery';
 
 $(function ()
 {
@@ -9,13 +9,12 @@ $(function ()
     
     $spotifyControls.each((k, e) =>
     {
-        console.log(e)
         ReactDOM.render((
             <React.StrictMode>
                 <App
                     test={$(e).data('spotify-test')}
-                    accessToken={$(e).data('spotify-access-token')}
-                    refreshToken={$(e).data('spotify-refresh-test')}
+                    accesstoken={$(e).data('spotify-accesstoken')}
+                    refreshtoken={$(e).data('spotify-refreshtoken')}
                 />
             </React.StrictMode>
         ),

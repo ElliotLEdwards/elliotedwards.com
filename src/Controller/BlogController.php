@@ -21,8 +21,8 @@ class BlogController extends AbstractController
         // $var = $access_token + $refresh_token;
         
         return $this->render('base.html.twig', [
-            "accessToken" => $access_token,
-            "refreshToken" => $refresh_token
+            "access_token" => $access_token,
+            "refresh_token" => $refresh_token
          ]);
     }
 }
