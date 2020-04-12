@@ -2,38 +2,28 @@ import React, { Component } from 'react';
 const $ = require('jquery');
 import Spotify from 'spotify-web-api-js';
 
+
 const spotifyWebApi = new Spotify();
 
 export class App extends Component {
     constructor(props){
         super();
-        const params = this.getHashParams();
-        const token = props.accesstoken;
-       
-        if (token) {
-            spotifyWebApi.setAccessToken(token);
+        
+        if (props.accesstoken) {
+            spotifyWebApi.setAccessToken(props.accesstoken);
         }
         this.state = {
-          loggedIn: token ? true : false,
-          nowPlaying: { name: 'Not Checked', albumArt: '' }
+          loggedIn: props.accesstoken ? true : false,
+          isPlaying: false, 
+          nowPlaying: { 
+            name: 'Not Checked', 
+            albumArt: '' 
+          },
+          savedTracks: [],
+          totalTracks: 0
         }
       }
-      getHashParams() {
-        
-        var hashParams = {};
-        
-        var e, r = /([^&;=]+)=?([^&;]*)/g,
-            q = window.location.hash.substring(1);
-        e = r.exec(q)
-        
-        while (e) {
-           hashParams[e[1]] = decodeURIComponent(e[2]);
-           e = r.exec(q);
-        }
-        console.log(hashParams)
-        return hashParams;
-      }
-    
+     
       getNowPlaying(){
         spotifyWebApi.getMyCurrentPlaybackState()
           .then((response) => {
@@ -41,10 +31,87 @@ export class App extends Component {
               nowPlaying: { 
                   name: response.item.name, 
                   albumArt: response.item.album.images[0].url
-                }
+                },
+                isPlaying: response.is_playing
             });
           })
       }
+
+      play() {
+        spotifyWebApi.play()
+      }
+
+      pause() {
+        spotifyWebApi.pause()
+      }
+
+      previous() {
+        spotifyWebApi.skipToPrevious()
+      }
+
+      next() {
+        spotifyWebApi.skipToNext()
+      }
+
+      playPause() {
+        this.getNowPlaying()
+        if(this.state.isPlaying)
+        {
+          this.pause()
+        } else {
+          this.play()
+        }
+        this.getNowPlaying()
+      }
+
+      getMySavedTracks() {
+        spotifyWebApi.getMySavedTracks()
+          .then((response) => {
+            this.setState({ 
+              savedTracks: response.items,
+              totalTracks: response.total
+            })
+          })
+          var offset = 20
+          var pages = Math.ceil(this.state.totalTracks / offset)
+          var currentPosition = 20
+          for(let i=1; i<pages; i++) {
+            currentPosition += 20
+            
+            spotifyWebApi.getMySavedTracks({
+              offset: currentPosition
+            }).then((response) => {
+              var newSavedTracksState = [...this.state.savedTracks, ...response.items ]
+              
+              this.setState({ 
+                savedTracks: newSavedTracksState
+              })
+              newSavedTracksState = []
+            })
+          }
+      }
+
+      renderSavedTracks() {
+        
+        return(
+          <table style={{ border: 1 }}>
+            {this.state.savedTracks.map((song) =>
+              <tr key={song.track.id}>
+                <td>{song.track.name}</td>
+                <td>
+                  {song.track.artists.map((artist) =>
+                      
+                      { return artist.name }
+                  )}
+                </td>
+                <td>{song.track.album.name}</td>
+                <td>{song.track.popularity}%</td>
+              </tr>
+            )}
+          </table>
+        )
+      }
+
       render() {
         return (
           <div className="App">
@@ -53,12 +120,31 @@ export class App extends Component {
               Now Playing: { this.state.nowPlaying.name }
             </div>
             <div>
-              <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
+              <img src={this.state.nowPlaying.albumArt} style={{ height: 500 }}/>
             </div>
             { this.state.loggedIn &&
-              <button onClick={() => this.getNowPlaying()}>
-                Check Now Playing
-              </button>
+              <div>
+                <div>
+                  <button onClick={() => this.getNowPlaying()}>
+                    Check Now Playing
+                  </button>
+                  <button onClick={() => this.getMySavedTracks()}>
+                    Saved tracks
+                  </button>
+                  <button onClick={() => this.previous()}>
+                    Previous
+                  </button>
+                  <button onClick={() => this.playPause()}>
+                    Play / Pause
+                  </button>
+                  <button onClick={() => this.next()}>
+                    Next
+                  </button>
+                </div>
+                <div>
+                  { this.renderSavedTracks() }
+                </div>
+              </div>
             }
           </div>
         );

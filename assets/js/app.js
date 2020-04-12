@@ -13,4 +13,6 @@ global.$ = global.jQuery = $;
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 import $ from 'jquery';
 
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
