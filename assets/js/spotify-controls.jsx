@@ -39,30 +39,37 @@ export class App extends Component {
 
       play() {
         spotifyWebApi.play()
+        this.setState({isPlaying: true})
       }
 
       pause() {
         spotifyWebApi.pause()
+        this.setState({isPlaying: false})
       }
 
       previous() {
         spotifyWebApi.skipToPrevious()
+        setTimeout(() => {
+          this.getNowPlaying()
+        }, 500);
       }
 
       next() {
         spotifyWebApi.skipToNext()
+        setTimeout(() => {
+          this.getNowPlaying()
+        }, 500);
+
       }
 
       playPause() {
-        this.getNowPlaying()
         if(this.state.isPlaying)
         {
           this.pause()
         } else {
           this.play()
         }
-        this.getNowPlaying()
-      }
+      } 
 
       getMySavedTracks() {
         spotifyWebApi.getMySavedTracks()
@@ -75,7 +82,7 @@ export class App extends Component {
           var offset = 20
           var pages = Math.ceil(this.state.totalTracks / offset)
           var currentPosition = 20
-          for(let i=1; i<pages; i++) {
+          for(let i=1; i<=pages; i++) {
             currentPosition += 20
             
             spotifyWebApi.getMySavedTracks({
