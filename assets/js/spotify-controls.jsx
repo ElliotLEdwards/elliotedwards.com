@@ -12,6 +12,7 @@ export class App extends Component {
         if (props.accesstoken) {
             spotifyWebApi.setAccessToken(props.accesstoken);
         }
+
         this.state = {
           loggedIn: props.accesstoken ? true : false,
           isPlaying: false, 
@@ -22,6 +23,12 @@ export class App extends Component {
           savedTracks: [],
           totalTracks: 0
         }
+        
+      }
+
+      componentDidMount() {
+        console.log('did mount')
+        this.getNowPlaying()
       }
      
       getNowPlaying(){
@@ -107,7 +114,6 @@ export class App extends Component {
                 <td>{song.track.name}</td>
                 <td>
                   {song.track.artists.map((artist) =>
-                      
                       { return artist.name }
                   )}
                 </td>
