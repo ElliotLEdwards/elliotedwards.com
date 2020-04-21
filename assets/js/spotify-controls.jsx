@@ -100,9 +100,24 @@ export class App extends Component {
               this.setState({ 
                 savedTracks: newSavedTracksState
               })
+              
               newSavedTracksState = []
             })
           }
+      }
+
+      saveTracksToDB() {
+        $.ajax({
+          method: "POST",
+          url: "{{ path('spotify_set') }}",
+          //url: "../../src/Controller/SpotifyController.php",
+          data: {
+            savedTracks: this.state.savedTracks
+          },
+          success:function(result) {
+            console.log('done')
+          }
+        })
       }
 
       renderSavedTracks() {
@@ -152,6 +167,9 @@ export class App extends Component {
                   </button>
                   <button onClick={() => this.next()}>
                     Next
+                  </button>
+                  <button onClick={() => this.saveTracksToDB()}>
+                    Save
                   </button>
                 </div>
                 <div>
