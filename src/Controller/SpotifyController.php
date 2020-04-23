@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SpotifyController extends AbstractController
 {
@@ -25,11 +26,21 @@ class SpotifyController extends AbstractController
     /**
      * @Route("/spotify/{savedTracks}", name="spotify_set")
      */
-    public function setTracks(String $savedTracks) 
+    public function setTracks(Request $request) 
     {
-        echo($savedTracks);
-
-        return(true);
+        $savedTracks = json_decode($request->request->get('savedTracks'), true);
+        if($savedTracks)
+        {
+            foreach($savedTracks as $savedTrackKey => $savedTrack) {
+                $tab[$savedTrackKey] = $savedTrack;
+            }
+        } else {
+            $tab['error'] = "Nothing to save";
+        }
+        
+        
+        $jsonData = 'Hello from the spotify controller';
+        return new JsonResponse(json_encode($savedTracks)); 
 
     }
 }

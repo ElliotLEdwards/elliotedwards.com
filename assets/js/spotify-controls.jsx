@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 const $ = require('jquery');
 import Spotify from 'spotify-web-api-js';
+import axios from 'axios';
 
 
 const spotifyWebApi = new Spotify();
@@ -107,17 +108,12 @@ export class App extends Component {
       }
 
       saveTracksToDB() {
-        $.ajax({
-          method: "POST",
-          url: "{{ path('spotify_set') }}",
-          //url: "../../src/Controller/SpotifyController.php",
-          data: {
-            savedTracks: this.state.savedTracks
-          },
-          success:function(result) {
-            console.log('done')
-          }
-        })
+       
+        
+        axios.post("{{ path('spotify_set') }}", this.state.savedTracks)
+          .then(res => {
+            console.log(res.data)
+          })
       }
 
       renderSavedTracks() {
