@@ -1,12 +1,12 @@
 {
     "devDependencies": {
         "@babel/preset-react": "^7.8.3",
-        "@symfony/webpack-encore": "^0.28.2",
+        "@symfony/webpack-encore": "^0.29.1",
         "core-js": "^3.0.0",
         "jquery": "^3.4.1",
+        "react-bootstrap-table-2": "2.10.7",
         "regenerator-runtime": "^0.13.2",
-        "webpack-notifier": "^1.6.0",
-        "react-bootstrap-table-2": "2.10.7"
+        "webpack-notifier": "^1.8.0"
     },
     "license": "UNLICENSED",
     "private": true,

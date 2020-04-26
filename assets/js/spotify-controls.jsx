@@ -108,12 +108,23 @@ export class App extends Component {
       }
 
       saveTracksToDB() {
-       
-        
-        axios.post("{{ path('spotify_set') }}", this.state.savedTracks)
+        var send = this.state.savedTracks
+        send = JSON.stringify(send)
+        $.ajax({
+          type: "POST",
+          url: "{{ path('spotify_set') }}",
+          data: {
+            savedTracks: this.state.savedTracks
+          },
+          dataType:"json",
+        })
+        /*
+        var send = []
+        send['data'] = this.state.savedTracks
+        axios.get("{{ path('spotify_set') }}", send)
           .then(res => {
-            console.log(res.data)
-          })
+            console.log('axios is done')
+          })*/
       }
 
       renderSavedTracks() {

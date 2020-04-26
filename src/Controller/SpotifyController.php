@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Library;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 class SpotifyController extends AbstractController
 {
@@ -28,18 +31,38 @@ class SpotifyController extends AbstractController
      */
     public function setTracks(Request $request) 
     {
-        $savedTracks = json_decode($request->request->get('savedTracks'), true);
+        $entityManager = $this->getDoctrine()->getManager();
+        $savedTracks = $request->request->get('savedTracks');
+        
+        $library = new Library();
+        
         if($savedTracks)
         {
             foreach($savedTracks as $savedTrackKey => $savedTrack) {
-                $tab[$savedTrackKey] = $savedTrack;
+                if(isset($savedTrack['track']['name']))
+                {
+                    $library->setTitle($savedTrack['track']['name']);
+                }
+                if(isset($savedTrack['track']['artists'][0]['name']))
+                {
+                    $library->setArtist($savedTrack['track']['artists'][0]['name']);
+                }
+                if(isset($savedTrack['track']['album']['name']))
+                {
+                    $library->setAlbum($savedTrack['track']['album']['name']);
+                }
+                if(isset($savedTrack['track']['popularity']))
+                {
+                    $library->setPopularity($savedTrack['track']['popularity']);
+                }
+                $entityManager->persist($library);
+                $entityManager->flush();
             }
         } else {
             $tab['error'] = "Nothing to save";
         }
         
         
-        $jsonData = 'Hello from the spotify controller';
         return new JsonResponse(json_encode($savedTracks)); 
 
     }
