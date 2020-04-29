@@ -28,7 +28,6 @@ export class App extends Component {
       }
 
       componentDidMount() {
-        console.log('did mount')
         this.getNowPlaying()
       }
      
@@ -118,13 +117,6 @@ export class App extends Component {
           },
           dataType:"json",
         })
-        /*
-        var send = []
-        send['data'] = this.state.savedTracks
-        axios.get("{{ path('spotify_set') }}", send)
-          .then(res => {
-            console.log('axios is done')
-          })*/
       }
 
       renderSavedTracks() {

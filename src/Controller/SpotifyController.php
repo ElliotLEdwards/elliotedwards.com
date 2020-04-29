@@ -39,24 +39,26 @@ class SpotifyController extends AbstractController
         if($savedTracks)
         {
             foreach($savedTracks as $savedTrackKey => $savedTrack) {
-                if(isset($savedTrack['track']['name']))
+                
+                if(isset($savedTracks[$savedTrackKey]['track']['name']))
                 {
-                    $library->setTitle($savedTrack['track']['name']);
+                    $library->setTitle($savedTracks[$savedTrackKey]['track']['name']);
                 }
-                if(isset($savedTrack['track']['artists'][0]['name']))
+                if(isset($savedTracks[$savedTrackKey]['track']['artists'][0]['name']))
                 {
-                    $library->setArtist($savedTrack['track']['artists'][0]['name']);
+                    $library->setArtist($savedTracks[$savedTrackKey]['track']['artists'][0]['name']);
                 }
-                if(isset($savedTrack['track']['album']['name']))
+                if(isset($savedTracks[$savedTrackKey]['track']['album']['name']))
                 {
-                    $library->setAlbum($savedTrack['track']['album']['name']);
+                    $library->setAlbum($savedTracks[$savedTrackKey]['track']['album']['name']);
                 }
-                if(isset($savedTrack['track']['popularity']))
+                if(isset($savedTracks[$savedTrackKey]['track']['popularity']))
                 {
-                    $library->setPopularity($savedTrack['track']['popularity']);
+                    $library->setPopularity($savedTracks[$savedTrackKey]['track']['popularity']);
                 }
                 $entityManager->persist($library);
                 $entityManager->flush();
+
             }
         } else {
             $tab['error'] = "Nothing to save";
