@@ -3,7 +3,7 @@
         "@babel/preset-react": "^7.8.3",
         "@symfony/webpack-encore": "^0.29.1",
         "core-js": "^3.0.0",
-        "jquery": "^3.4.1",
+        "jquery": "^3.5.0",
         "react-bootstrap-table-2": "2.10.7",
         "regenerator-runtime": "^0.13.2",
         "webpack-notifier": "^1.8.0"
@@ -21,7 +21,7 @@
         "babel-preset-es2015": "^6.24.1",
         "babel-preset-react": "^6.24.1",
         "babel-preset-stage-0": "^6.24.1",
-        "jquery": "^3.4.1",
+        "jquery": "^3.5.0",
         "prop-types": "^15.7.2",
         "react": "^16.13.0",
         "react-bootstrap-table-next": "^4.0.0",
